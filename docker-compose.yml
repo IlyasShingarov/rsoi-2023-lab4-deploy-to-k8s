@@ -16,7 +16,7 @@ services:
 
 # TODO добавить сервисы
   gateway:
-    image: gateway
+    image: cr.yandex/crph4v0hbjeg1nj5b98e/gateway
     build: GatewayService/
     ports:
       - "8080:8080"
@@ -26,7 +26,7 @@ services:
       - payment
 
   cars:
-    image: cars
+    image: cr.yandex/crph4v0hbjeg1nj5b98e/cars
     build: CarService/
     ports:
       - "8070:8070"
@@ -38,7 +38,7 @@ services:
       - postgres
 
   payment:
-    image: payment
+    image: cr.yandex/crph4v0hbjeg1nj5b98e/payment
     build: PaymentService/
     ports:
       - "8050:8050"
@@ -50,7 +50,7 @@ services:
       - postgres
 
   rental:
-    image: rental
+    image: cr.yandex/crph4v0hbjeg1nj5b98e/rental
     build: RentalService/
     ports:
       - "8060:8060"
