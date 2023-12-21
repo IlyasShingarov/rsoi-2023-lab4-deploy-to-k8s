@@ -52,13 +52,13 @@ public class GatewayServiceImpl implements GatewayService {
 
     @Override
     public List<RentalDto> getRental(String username) {
-        List<RentalResponseDto> rentals = rentalClient.getRentals(username);
+        List<RentalResponseDto> rentals = rentalClient.getRentals(username).getBody();
 
         List<UUID> paymentsUids = new LinkedList<>();
         List<UUID> carUids = new LinkedList<>();
         rentals.forEach(rentalOutDto -> {
-            paymentsUids.add(rentalOutDto.paymentUid());
-            carUids.add(rentalOutDto.carUid());
+            paymentsUids.add(rentalOutDto.getPaymentUid());
+            carUids.add(rentalOutDto.getCarUid());
         });
 
         Map<UUID, PaymentResponseDto> payments = paymentClient.getPayments(paymentsUids)
@@ -76,11 +76,11 @@ public class GatewayServiceImpl implements GatewayService {
 
     @Override
     public RentalDto getRental(String username, UUID rentalUid) {
-        RentalResponseDto rental = rentalClient.getRental(rentalUid, username);
+        RentalResponseDto rental = rentalClient.getRental(rentalUid, username).getBody();
         log.info("Get rental form rental service: {}", rental);
 
-        CarResponseDto car = carClient.getCar(rental.carUid());
-        PaymentResponseDto payment = paymentClient.getPayment(rental.paymentUid());
+        CarResponseDto car = carClient.getCar(rental.getCarUid());
+        PaymentResponseDto payment = paymentClient.getPayment(rental.getPaymentUid());
 
         RentalDto mappedRental = modelMapper.map(rental, RentalDto.class);
         mappedRental.setCar(modelMapper.map(car, BaseCarDto.class));
@@ -152,11 +152,11 @@ public class GatewayServiceImpl implements GatewayService {
     @Override
     public void cancelRental(String username, UUID rentalUid) {
         try {
-            RentalResponseDto rental = rentalClient.getRental(rentalUid, username);
+            RentalResponseDto rental = rentalClient.getRental(rentalUid, username).getBody();
 
             rentalClient.cancelRental(rentalUid, username);
-            paymentClient.cancelPayment(rental.paymentUid());
-            carClient.changeAvailability(rental.carUid());
+            paymentClient.cancelPayment(rental.getPaymentUid());
+            carClient.changeAvailability(rental.getCarUid());
         } catch (FeignException.NotFound e) {
             log.info("Trying to cancel non-existing rental: username = {}, rentalUid = {}", username, rentalUid);
 
@@ -176,10 +176,10 @@ public class GatewayServiceImpl implements GatewayService {
     private RentalDto buildOutDto(RentalResponseDto rentalOutDto, Map<UUID, PaymentResponseDto> payments, Map<UUID, CarResponseDto> cars) {
         RentalDto rental = modelMapper.map(rentalOutDto, RentalDto.class);
 
-        PaymentResponseDto payment = payments.get(rentalOutDto.paymentUid());
+        PaymentResponseDto payment = payments.get(rentalOutDto.getPaymentUid());
         PaymentDto paymentDto = modelMapper.map(payment, PaymentDto.class);
 
-        CarResponseDto car = cars.get(rentalOutDto.carUid());
+        CarResponseDto car = cars.get(rentalOutDto.getCarUid());
         CarDto carDto = modelMapper.map(car, CarDto.class);
 
         rental.setPayment(paymentDto);

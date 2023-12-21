@@ -28,7 +28,8 @@ public class CarServiceImpl implements CarService {
     public Page<CarResponseDto> getCars(boolean showAll, Pageable pageable) {
         Page<Car> cars = showAll
                 ? carRepository.findAll(pageable)
-                : carRepository.findByAvailabilityIsTrue(pageable);
+                : carRepository.findAllByAvailabilityIsTrue(pageable);
+        log.trace("Got from DB: {}", cars);
         return cars.map(carMapper::toResponse);
     }
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequestMapping("${rentalapi.url.base}")
 public interface RentalController {
     @PostMapping
-    ResponseEntity<RentalResponseDto> createRental(@RequestHeader(CustomHeaders.USERNAME_HEADER) String username,
+    RentalResponseDto createRental(@RequestHeader(CustomHeaders.USERNAME_HEADER) String username,
                                                    @RequestBody RentalRequestDto rentalInDto);
 
     @GetMapping

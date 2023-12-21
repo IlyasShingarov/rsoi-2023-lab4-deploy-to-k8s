@@ -18,7 +18,7 @@ public class ModelMapperConfig {
 
         TypeMap<RentalResponseDto, RentalCreateDto> rentalTypeMap =
                 mapper.createTypeMap(RentalResponseDto.class, RentalCreateDto.class);
-        rentalTypeMap.addMapping(RentalResponseDto::status, RentalCreateDto::setStatus);
+        rentalTypeMap.addMapping(RentalResponseDto::getStatus, RentalCreateDto::setStatus);
 
         return mapper;
     }

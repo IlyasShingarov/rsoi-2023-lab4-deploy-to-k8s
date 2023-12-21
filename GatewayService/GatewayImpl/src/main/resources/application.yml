@@ -11,15 +11,21 @@ services:
 
 
 feign:
+  okhttp.enabled: true
   payment:
     url: "http://payment:8050"
+#    url: "http://localhost:8050"
   cars:
     url: "http://cars:8070"
+#    url: "http://localhost:8070"
   rental:
     url: "http://rental:8060"
+#    url: "http://localhost:8060"
 
 
 rental:
   client:
     url:
       base: api/v1/rental
+
+paymentapi.url.base: /api/v1/payments

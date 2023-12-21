@@ -1,6 +1,7 @@
 package ru.bmstu.rentalapi.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bmstu.rentalapi.constants.CustomHeaders;
 import ru.bmstu.rentalapi.dto.RentalRequestDto;
@@ -13,21 +14,21 @@ import java.util.UUID;
 public interface RentalClient {
     @PostMapping("${rental.client.url.base}")
     RentalResponseDto createRental(@RequestHeader(CustomHeaders.USERNAME_HEADER) String username,
-                                   @RequestBody RentalRequestDto rentalRequest);
+                                                  @RequestBody RentalRequestDto rentalRequest);
 
     @GetMapping("${rental.client.url.base}")
-    List<RentalResponseDto> getRentals(@RequestHeader(CustomHeaders.USERNAME_HEADER) String username);
+    ResponseEntity<List<RentalResponseDto>> getRentals(@RequestHeader(CustomHeaders.USERNAME_HEADER) String username);
 
     @GetMapping("${rental.client.url.base}/{rentalUid}")
-    RentalResponseDto getRental(@PathVariable UUID rentalUid,
+    ResponseEntity<RentalResponseDto> getRental(@PathVariable UUID rentalUid,
                                 @RequestHeader(CustomHeaders.USERNAME_HEADER) String username);
 
     @DeleteMapping("${rental.client.url.base}/{rentalUid}")
-    void cancelRental(@PathVariable UUID rentalUid,
+    ResponseEntity<?> cancelRental(@PathVariable UUID rentalUid,
                       @RequestHeader(CustomHeaders.USERNAME_HEADER) String username);
 
     @PostMapping("${rental.client.url.base}/{rentalUid}/finish")
-    void finishRental(@PathVariable UUID rentalUid,
+    ResponseEntity<?> finishRental(@PathVariable UUID rentalUid,
                       @RequestHeader(CustomHeaders.USERNAME_HEADER) String username);
 
 }

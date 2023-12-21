@@ -23,7 +23,7 @@ public interface CarClient {
     @PostMapping("${carsapi.url.base}")
     List<CarResponseDto> getCars(List<UUID> carUids);
 
-    @PutMapping("${carsapi.url.base}/{carId}")
+    @PatchMapping("${carsapi.url.base}/{carId}")
     ResponseEntity<?> changeAvailability(@PathVariable UUID carId);
 
 }

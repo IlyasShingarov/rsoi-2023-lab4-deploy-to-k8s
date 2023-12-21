@@ -21,9 +21,9 @@ public class RentalControllerImpl implements RentalController {
     private final RentalService rentalService;
 
     @Override
-    public ResponseEntity<RentalResponseDto> createRental(String username, RentalRequestDto request) {
+    public RentalResponseDto createRental(String username, RentalRequestDto request) {
         log.info("Request for creating rental for user '{}'", username);
-        return ResponseEntity.ok(rentalService.createRental(username, request));
+        return rentalService.createRental(username, request);
     }
 
     @Override

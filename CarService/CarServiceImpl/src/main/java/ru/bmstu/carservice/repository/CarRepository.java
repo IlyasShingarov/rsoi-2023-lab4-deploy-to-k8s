@@ -11,7 +11,7 @@ import java.util.*;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Integer> {
-    Page<Car> findByAvailabilityIsTrue(Pageable pageable);
+    Page<Car> findAllByAvailabilityIsTrue(Pageable pageable);
 
     Optional<Car> findByCarUid(@NotNull UUID carUid);
     List<Car> findAllByCarUidIn(Set<@NotNull UUID> carUid);

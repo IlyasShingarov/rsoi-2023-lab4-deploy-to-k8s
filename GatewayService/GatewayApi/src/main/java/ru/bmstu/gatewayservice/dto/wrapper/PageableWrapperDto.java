@@ -9,7 +9,7 @@ import java.util.List;
 @Getter @Setter @ToString
 public class PageableWrapperDto<T> {
 
-    private List<T> content;
+    private List<T> items;
 
     private int page;
     private int pageSize;

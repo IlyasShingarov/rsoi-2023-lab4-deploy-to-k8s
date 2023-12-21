@@ -3,8 +3,7 @@ package ru.bmstu.carservice.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.bmstu.carservice.constants.CarType;
 
 import java.util.UUID;
@@ -12,6 +11,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "cars")
 public class Car {
 
@@ -51,5 +53,6 @@ public class Car {
     private CarType type;
 
     @Column(name = "availability", nullable = false)
+    @Builder.Default
     private boolean availability = false;
 }
