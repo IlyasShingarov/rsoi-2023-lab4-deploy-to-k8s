@@ -57,6 +57,9 @@ jobs:
           CRYANDEX_PASSWORD: ${{ secrets.CRYANDEX_PASSWORD }}
         run: echo "$CRYANDEX_PASSWORD" | docker login -u oauth --password-stdin cr.yandex
 
+      - name: Docker Publish
+        run: docker compose push
+
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
