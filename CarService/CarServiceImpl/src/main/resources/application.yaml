@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  application.name: cars
+
+server:
+  port: 8070
+#  servlet.context-path: /api/v1
+
+logging:
+  level:
+    ru.bmstu: TRACE
+
+carsapi:
+  url:
+    base: /api/v1/cars

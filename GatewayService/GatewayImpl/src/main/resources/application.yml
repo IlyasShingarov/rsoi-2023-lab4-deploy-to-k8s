@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+
+services:
+  cars.url: "/api/v1/cars"
+  rental.url: "/api/v1/rental"
+
+#  payments.url: "/api/v1/payme"
+
+
+
+feign:
+  payment:
+    url: "http://payment:8050"
+  cars:
+    url: "http://cars:8070"
+  rental:
+    url: "http://rental:8060"
+
+
+rental:
+  client:
+    url:
+      base: api/v1/rental

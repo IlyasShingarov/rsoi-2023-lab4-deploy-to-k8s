@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  application.name: payment
+
+server:
+  port: 8050
+#  servlet.context-path: /api/v1
+
+logging:
+  level:
+    ru.bmstu: TRACE
+
+paymentapi:
+  url:
+    base: /api/v1/payments
