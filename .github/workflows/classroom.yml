@@ -15,6 +15,39 @@ jobs:
 
       # TODO build, publish to docker hub, deploy to k8s
 
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+          cache: 'gradle'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        
+      - name: Build CarService & API
+        run: |
+          chmod +x ./CarService/gradlew
+          cd CarService && ./gradlew :CarServiceApi:clean :CarServiceApi:publishToMavenLocal :CarServiceImpl:clean :CarServiceImpl:bootJar
+      
+      - name: Build RentalService & API
+        run: |
+          chmod +x ./RentalService/gradlew
+          cd RentalService && ./gradlew :RentalServiceApi:clean :RentalServiceApi:publishToMavenLocal :RentalServiceImpl:clean :RentalServiceImpl:bootJar
+
+      - name: Build PaymentService & API
+        run: |
+          chmod +x ./PaymentService/gradlew
+          cd PaymentService && ./gradlew :PaymentServiceApi:clean :PaymentServiceApi:publishToMavenLocal :PaymentServiceImpl:clean :PaymentServiceImpl:bootJar
+
+      - name: Build GatewayService
+        run: |
+          chmod +x ./GatewayService/gradlew
+          cd GatewayService && ./gradlew :GatewayImpl:clean :GatewayImpl:bootJar
+
       - name: Build images
         timeout-minutes: 10
         run: docker compose build
