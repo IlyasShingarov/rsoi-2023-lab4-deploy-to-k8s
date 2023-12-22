@@ -73,12 +73,7 @@ jobs:
 
       - name: 'Deploy Postgresql Database'
         run: |
-          export HELM_OPERATION=install
-          helm --kubeconfig ./kube.config status db
-          if [ $? -eq 0 ]
-            then HELM_OPERATION=upgrade
-          fi
-          helm --kubeconfig ./kube.config $HELM_OPERATION db ./k8s/postgres-chart
+          helm --kubeconfig ./kube.config upgrade --install db ./k8s/postgres-chart
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
