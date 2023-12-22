@@ -60,6 +60,26 @@ jobs:
       - name: Docker Publish
         run: docker compose push
 
+      - name: Install HELM
+        uses: azure/setup-helm@v3
+
+      - name: Prepare Kubeconfig
+        env:
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+          KUBECONFIG_CA_FILE: '${{ KUBECONFIG_CA }}'
+        run: |
+          echo "$KUBECONFIG_FILE" > ./kube.config
+          echo "$KUBECONFIG_CA_FILE" > ./ca.pem
+
+      - name: 'Deploy Postgresql Database'
+        run: |
+          export HELM_OPERATION=install
+          helm --kubeconfig ./kube.config status db
+          if [ $? -eq 0 ]
+            then HELM_OPERATION=upgrade
+          fi
+          helm --kubeconfig ./kube.config $HELM_OPERATION db ./k8s/postgres-chart
+
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
